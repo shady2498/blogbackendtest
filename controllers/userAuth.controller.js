@@ -1,4 +1,4 @@
-const db = require("../models");
+const {db, sequelize} = require("../models");
 const helpers = require("../helpers/helper.functions");
 const UserAuth = db.users;
 const bcrypt = require("bcryptjs");
