@@ -1,8 +1,8 @@
 module.exports = {
-  HOST: "127.0.0.1",
-  USER: "root",
+  HOST: "blogsbackend2.cifesgggcljk.eu-north-1.rds.amazonaws.com",
+  USER: "admin",
   PASSWORD: "password",
-  DB: "Blogsbackend",
+  DB: "backendtest",
   dialect: "mysql",
   port: 3306,
   pool: {
