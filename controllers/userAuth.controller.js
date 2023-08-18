@@ -1,4 +1,4 @@
-const db = require("../models");
+const {db, sequelize} = require("../models");
 const helpers = require("../helpers/helper.functions");
 const UserAuth = db.users;
 const bcrypt = require("bcryptjs");
@@ -90,3 +90,4 @@ exports.loginUser = async (req, res) => {
       .json({ error_code: -1, message: "Invalid username or password" });
   }
 };
+

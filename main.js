@@ -1,11 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger.js');
 
 //cors
 var corsOptions = {
   origin: "http://localhost:3000",
 };
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cors(corsOptions));
 
@@ -16,7 +20,6 @@ const db = require("./models");
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
-//sadasd
 db.sequelize
   .sync()
   .then(() => {
@@ -32,6 +35,7 @@ app.get("/", (req, res) => {
 
 require("./routes/user_auth.routes")(app);
 require("./routes/blog.routes")(app);
+
 
 // set port, listen for requests
 const PORT = 4000;

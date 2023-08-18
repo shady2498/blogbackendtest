@@ -30,8 +30,10 @@ db.blogs = require("./blogs.models.js")(sequelize, Sequelize);
   //   onUpdate:'RESTRICT'
   // });
 
-  db.users.hasMany(db.blogs, {foreignKey: "user_id", onUpdate: 'RESTRICT'});
-db.blogs.belongsTo(db.users, {foreignKey: "user_id", onUpdate: 'RESTRICT'});
+  db.users.hasMany(db.blogs, {foreignKey: "user_id"});
+db.blogs.belongsTo(db.users, {foreignKey: "user_id"});
 
 
-module.exports = db;
+module.exports = {db,sequelize};
+// module.exports = sequelize;
+
