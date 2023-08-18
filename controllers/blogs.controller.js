@@ -1,8 +1,10 @@
 
-const db = require("../models");
+const {db, sequelize} = require("../models");
+// const sequelize = require("../models");
 const helpers = require("../helpers/helper.functions");
 const Blog = db.blogs;
 
+const Sequelize = require("sequelize");
 
 
 
@@ -26,11 +28,9 @@ exports.addBlog = async (req, res) => {
     console.log("this is requsted body", data);
 
 
-    data.options = JSON.stringify(data.options)
-
     try {
 
-        Blog.create(data)
+        createBlogWithRawQuery(data)
         .then(data => {
             res.send({error_code: 0 , message: "Blog created successfully"});
         }).catch(err => {
@@ -67,9 +67,7 @@ exports.updateBlog = async (req,res) => {
     }
     console.log('this is data to check 22', data)
 
-    Blog.update(data, {
-      where: { id: id }
-    })
+    updateBlogWithRawQuery(id, data)
       .then(num => {
         console.log("num", num)
         if (num == 1) {
@@ -94,9 +92,7 @@ exports.deleteBlog = (req, res) => {
     const id = req.params.id;
 
   
-    Blog.destroy({
-      where: { id: id }
-    })
+    deleteBlogByIdWithRawQuery(id)
       .then(num => {
         if (num == 1) {
           res.send({
@@ -119,7 +115,7 @@ exports.deleteBlog = (req, res) => {
   exports.getBlog = (req, res) => {
     const id = req.params.id;
 
-    Blog.findByPk(id)
+    findBlogByIdWithRawQuery(id)
       .then(data => {
         if (data) {
           res.send(data);
@@ -135,3 +131,85 @@ exports.deleteBlog = (req, res) => {
         });
       });
   };
+
+  async function findBlogByIdWithRawQuery(id) {
+    try {
+      const query = 'SELECT * FROM Blogs WHERE id = :id';
+      const options = {
+        replacements: { id }, // Providing the parameter value
+        type: Sequelize.QueryTypes.SELECT,
+        model: Blog // Associating the query results with the Blog model
+      };
+  
+      const blog = await sequelize.query(query, options);
+      return blog[0] || null; // Returning the first result or null if not found
+    } catch (error) {
+      console.error('Error:', error);
+      return null;
+    }
+  }
+
+  async function deleteBlogByIdWithRawQuery(id) {
+    try {
+      const query = 'DELETE FROM Blogs WHERE id = :id';
+      const options = {
+        replacements: { id }, // Providing the parameter value
+        type: Sequelize.QueryTypes.DELETE
+      };
+  
+      const rowsAffected = await sequelize.query(query, options);
+      return 1; // Number of rows deleted
+    } catch (error) {
+      console.error('Error:', error);
+      return 0; // No rows deleted
+    }
+  }
+
+  async function createBlogWithRawQuery(data) {
+    try {
+      const query = `
+        INSERT INTO Blogs (title, content, published, user_id, createdAt, updatedAt)
+        VALUES (:title, :content, :published, :user_id, NOW(), NOW())
+      `;
+      const options = {
+        replacements: {
+          title: data.title,
+          content: data.content,
+          published: data.published,
+          user_id: data.user_id
+        },
+        type: Sequelize.QueryTypes.INSERT
+      };
+  
+      const [result] = await sequelize.query(query, options);
+      return result; // The inserted row
+    } catch (error) {
+      console.error('Error:', error);
+      return null;
+    }
+  }
+
+  async function updateBlogWithRawQuery(id, data) {
+    try {
+      const query = `
+        UPDATE Blogs
+        SET title = :title, content = :content, published = :published, updatedAt = NOW()
+        WHERE id = :id
+      `;
+      const options = {
+        replacements: {
+          id,
+          title: data.title,
+          content: data.content,
+          published: data.published
+        },
+        type: Sequelize.QueryTypes.UPDATE
+      };
+  
+      const [rowsAffected] = await sequelize.query(query, options);
+      return 1; // Number of rows updated
+    } catch (error) {
+      console.error('Error:', error);
+      return 0; // No rows updated
+    }
+  }
