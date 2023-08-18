@@ -8,9 +8,9 @@ module.exports = app => {
   
     //add skill route
     router.post("/addBlog",auth, blog.addBlog);
-    // router.put("/updateBlog/:id",auth, blog.updateBlog);
-    // router.delete("/deleteBlog/:id",auth, blog.deleteBlog);
-    // router.get("/:id",auth, blog.getBlog);
+    router.put("/updateBlog/:id",auth, blog.updateBlog);
+    router.delete("/deleteBlog/:id",auth, blog.deleteBlog);
+    router.get("/:id", blog.getBlog);
 
     app.use('/api/blogs', router);
   };
