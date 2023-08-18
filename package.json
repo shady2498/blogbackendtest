@@ -4,7 +4,10 @@
   "description": "Test Project for Blogging",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:js && npm run build:css && npm run build:docs",
+  "build:js": "babel src -d dist",
+  "build:css": "sass src/styles:dist/styles",
+  "build:docs": "swagger-cli bundle src/swagger.yaml -o dist/swagger.json"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +19,7 @@
     "mysql2": "^2.3.3",
     "sequelize": "^6.24.0",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-dist": "^5.4.2",
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {

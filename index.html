@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Documentation</title>
+    <!-- Load Swagger UI CSS -->
+    <link rel="stylesheet" type="text/css" href="node_modules/swagger-ui-dist/swagger-ui.css">
+</head>
+<body>
+    <div id="swagger-ui"></div>
+    <script src="node_modules/swagger-ui-dist/swagger-ui-bundle.js"></script>
+    <script>
+        // Configure Swagger UI
+        window.onload = function() {
+            SwaggerUIBundle({
+                url: "/api-docs", // Replace with the path to your Swagger file
+                dom_id: "#swagger-ui"
+            });
+        }
+    </script>
+</body>
+</html>
