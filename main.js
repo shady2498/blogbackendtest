@@ -27,10 +27,11 @@ db.sequelize
   });
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to quiz site application." });
+  res.json({ message: "Welcome to blog site application." });
 });
 
 require("./routes/user_auth.routes")(app);
+require("./routes/blog.routes")(app);
 
 // set port, listen for requests
 const PORT = 4000;
