@@ -1,16 +1,16 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET = require("../data/global.data")
+const SECRET = require("../data/global.data");
 
-
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   //get the token from the header if present
-  let token =  req.headers["authorization"];
-  token = token.split(' ')[1];
-  console.log('this is token', token)
+  console.log("this is auth blogs");
+  let token = req.headers["authorization"];
+  token = token.split(" ")[1];
+  console.log("this is token", token);
   //if no token found, return response (without going to the next middelware)
   if (!token) return res.status(401).send("Access denied. No token provided.");
-    console.log("middle ware")
+  console.log("middle ware");
   try {
     const decoded = jwt.verify(token, SECRET);
     req.user = decoded;
