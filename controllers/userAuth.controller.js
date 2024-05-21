@@ -1,4 +1,4 @@
-const {db, sequelize} = require("../models");
+const { db, sequelize } = require("../models");
 const helpers = require("../helpers/helper.functions");
 const UserAuth = db.users;
 const bcrypt = require("bcryptjs");
@@ -61,7 +61,10 @@ exports.loginUser = async (req, res) => {
   if (!user) {
     return res
       .status(200)
-      .json({ error: "Sorry! There is no registered user with this email" });
+      .json({
+        error_code: -1,
+        message: "Sorry! There is no registered user with this email",
+      });
   }
 
   console.log("this is user", user.user_name);
@@ -90,4 +93,3 @@ exports.loginUser = async (req, res) => {
       .json({ error_code: -1, message: "Invalid username or password" });
   }
 };
-

@@ -5,7 +5,8 @@ const SECRET = require("../data/global.data");
 module.exports = function (req, res, next) {
   //get the token from the header if present
   console.log("this is auth blogs");
-  let token = req.headers["authorization"];
+  let token = req.headers.authorization;
+  console.log("this is token", token);
   token = token.split(" ")[1];
   console.log("this is token", token);
   //if no token found, return response (without going to the next middelware)

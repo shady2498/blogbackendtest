@@ -1,15 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger.js');
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger.js");
 
 //cors
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:5173",
 };
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cors(corsOptions));
 
@@ -35,7 +35,6 @@ app.get("/", (req, res) => {
 
 require("./routes/user_auth.routes")(app);
 require("./routes/blog.routes")(app);
-
 
 // set port, listen for requests
 const PORT = 4000;
