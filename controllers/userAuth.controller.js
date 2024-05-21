@@ -60,7 +60,7 @@ exports.loginUser = async (req, res) => {
 
   if (!user) {
     return res
-      .status(404)
+      .status(200)
       .json({ error: "Sorry! There is no registered user with this email" });
   }
 
